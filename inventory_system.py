@@ -5,11 +5,14 @@ from datetime import datetime
 # Global variable
 stock_data = {}
 
-def addItem(item="default", qty=0, logs=[]):
+def addItem(item="default", qty=0, logs=None):               # Fixed dangerous mutable default arg
+    if logs is None:                
+        logs = []
     if not item:
         return
     stock_data[item] = stock_data.get(item, 0) + qty
     logs.append("%s: Added %d of %s" % (str(datetime.now()), qty, item))
+
 
 def removeItem(item, qty):
     try:
