@@ -13,31 +13,52 @@
 
 ## Answers for the reflection questions:
 
-**`1. Which issues were the easiest to fix, and which were the hardest? Why?`**
+**1. Which issues were the easiest to fix, and which were the hardest? Why?**
 
-Easiest: The easiest fixes were definitely deleting the eval() function and the unused import logging. They were just single lines to remove, and it was obvious why they were bad (one was a huge security risk, the other was just clutter).
+**Easiest**
 
-Hardest: The hardest one to understand was the logs=[] (mutable default argument) issue. It's not a syntax error, so it looked fine. I had to understand the concept that the list is created only once, which is a weird Python thing. The fixes for loadData and saveData were also a bit harder because I had to rewrite several lines to use the with open... and try...except structure instead of just changing one word.
+- Remove eval (Bandit B307): One-line delete with no behavior change elsewhere.
 
+- Replace bare except / try/except/pass (Flake8 E722 / Bandit B110): Small, local change to except KeyError that clarified intent without ripple effects.
 
-**`2. Did the static analysis tools report any false positives? If so, describe one example.`**
-I didn't really see any false positives for the big issues. Everything the tools flagged, like the eval() , the bare except , and the mutable default argument, was a real problem that made the code buggy or insecure.
+- Dangerous default logs=[] (Pylint W0102): Swap to logs=None and initialize inside—straightforward and low risk.
 
+**Hardest**
 
-Pylint might have flagged other minor things, like using global stock_data, but in a small script like this, it's not really a false positive, just a style guideline that I chose to use. So for this lab, no, all the main warnings were valid. All the main issues were removed.
+- File I/O without with and encoding (Pylint R1732, W1514): Easy code-wise, but requires thinking through portability (Windows vs Linux), testability, and ensuring no hidden dependencies on implicit encodings.
 
-**`3. How would you integrate static analysis tools into your actual software development workflow?`**
-I'd use them in two main places:
-
-Locally: I would set up a pre-commit hook. This would automatically run Flake8  (for style) and Bandit  (for security) every time I try to git commit. It would stop me from committing messy or insecure code in the first place.
+- Converting function names to snake_case + adding docstrings (Pylint C0103, C0116): Renaming can touch multiple call sites; docstrings need concise, accurate descriptions. These are “easy” edits but can be tedious and prone to minor breakage if references are missed.
 
 
-In CI (Continuous Integration): I would set up a GitHub Actions workflow. This would run all the tools (Pylint, Flake8, Bandit) automatically every time someone pushes code to the repository. If any tool finds a high-severity issue, the build would fail, and it would block the bad code from being merged into the main branch.
+**2. Did the static analysis tools report any false positives? If so, describe one example.**
 
-**`4. What tangible improvements did you observe in the code quality, readability, or potential robustness after applying the fixes?`**
+**No outright false positives showed up. Everything flagged was reasonable:**
 
-Robustness: This is the biggest win. The app won't crash anymore if I ask for an item that isn't in stock (from fixing getQty) or if the inventory.json file is missing (from fixing loadData).
+- eval is objectively unsafe.
+- Bare except was legitimately masking errors.
+- Mutable default arguments are a classic Python footgun.
+- with open(..., encoding="utf-8") is the portable, correct pattern.
+- Naming/docstrings are style-oriented but valid concerns for maintainability.
 
-Security: It's actually secure now that the eval() hole is gone.
+**Borderline (contextual) example:**
 
-Readability: It's much cleaner. Using with open... makes the file handling clearer. Also, replacing the bare except:  with except KeyError: makes it obvious what error we're expecting, which makes it way easier to debug.
+- Missing docstrings (C0116/C0114) can feel noisy for tiny student scripts or throwaway utilities. It’s not “false,” but in a quick lab context it can be contextually low priority. Still, adding short docstrings improved readability and tooling scores, so we kept them.
+
+**3. How would you integrate static analysis tools into your actual software development workflow?**
+- Pre-commit hooks: run flake8, pylint, bandit, and black on changed files before committing.
+
+- CI on PRs: rerun the same tools; block on security (Bandit) and critical lint; show inline annotations.
+
+- Configs & baselines: keep .flake8, .pylintrc, bandit.yaml; use a baseline for legacy code and fail only on new violations.
+
+- Dev ergonomics: editor integrations + auto-format (black, isort) to reduce noise.
+
+**4. What tangible improvements did you observe in the code quality, readability, or potential robustness after applying the fixes?**
+
+- **Security**: removed eval; narrowed except → fewer hidden failures.
+
+- **Robustness/portability**: with open(..., encoding="utf-8") avoids leaks and decoding issues.
+
+- **Correctness hygiene**: no shared mutable default → predictable behavior.
+
+- **Maintainability**: snake_case + docstrings → clearer API, faster reviews, better lint scores.

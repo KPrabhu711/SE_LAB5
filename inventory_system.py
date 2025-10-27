@@ -1,5 +1,4 @@
-import json
-import logging
+import json  #unused import removed
 from datetime import datetime
 
 # Global variable
@@ -29,13 +28,13 @@ def get_qty(item: str) -> int:
     """Return quantity for an item; 0 if missing."""
     return stock_data[item]
 
-def load_data(file_path: str = "inventory.json") -> None:
+def load_data(file: str = "inventory.json") -> None:
     """Load stock data from JSON file into memory."""    # Safe file handling
     global stock_data
     with open(file, "r", encoding="utf-8") as f:
         stock_data = json.loads(f.read())
 
-def save_data(file_path: str = "inventory.json") -> None:
+def save_data(file: str = "inventory.json") -> None:
     """Persist current stock data dictionary into JSON file."""
     with open(file, "w", encoding="utf-8") as f:
         f.write(json.dumps(stock_data))
