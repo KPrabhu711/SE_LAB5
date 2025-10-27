@@ -61,8 +61,8 @@ def main():
     add_item(123, "ten")  # invalid types, no check
     remove_item("apple", 3)
     remove_item("orange", 1)
-    print("Apple stock:", getQty("apple"))
-    print("Low items:", checkLowItems())
+    print("Apple stock:", get_qty("apple"))
+    print("Low items:", check_low_items())
     save_data()
     load_data()
     print_data()
