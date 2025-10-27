@@ -26,16 +26,15 @@ def removeItem(item, qty):
 def getQty(item):
     return stock_data[item]
 
-def loadData(file="inventory.json"):
-    f = open(file, "r")
+def loadData(file="inventory.json"):    # Safe file handling
     global stock_data
-    stock_data = json.loads(f.read())
-    f.close()
+    with open(file, "r", encoding="utf-8") as f:
+        stock_data = json.loads(f.read())
 
 def saveData(file="inventory.json"):
-    f = open(file, "w")
-    f.write(json.dumps(stock_data))
-    f.close()
+    with open(file, "w", encoding="utf-8") as f:
+        f.write(json.dumps(stock_data))
+
 
 def printData():
     print("Items Report")
