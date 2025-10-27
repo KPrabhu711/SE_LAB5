@@ -16,8 +16,9 @@ def removeItem(item, qty):
         stock_data[item] -= qty
         if stock_data[item] <= 0:
             del stock_data[item]
-    except:
-        pass
+    except KeyError:
+        return     # Removed bare except
+
 
 def getQty(item):
     return stock_data[item]
