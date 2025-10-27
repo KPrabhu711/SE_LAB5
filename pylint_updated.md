@@ -1,0 +1,26 @@
+************* Module inventory_system
+inventory_system.py:9:20: C0303: Trailing whitespace (trailing-whitespace)
+inventory_system.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+inventory_system.py:8:0: C0116: Missing function or method docstring (missing-function-docstring)
+inventory_system.py:8:0: C0103: Function name "addItem" doesn't conform to snake_case naming style (invalid-name)
+inventory_system.py:14:16: C0209: Formatting a regular string which could be an f-string (consider-using-f-string)
+inventory_system.py:17:0: C0116: Missing function or method docstring (missing-function-docstring)
+inventory_system.py:17:0: C0103: Function name "removeItem" doesn't conform to snake_case naming style (invalid-name)
+inventory_system.py:17:0: R1711: Useless return at end of function or method (useless-return)
+inventory_system.py:26:0: C0116: Missing function or method docstring (missing-function-docstring)
+inventory_system.py:26:0: C0103: Function name "getQty" doesn't conform to snake_case naming style (invalid-name)
+inventory_system.py:29:0: C0116: Missing function or method docstring (missing-function-docstring)
+inventory_system.py:29:0: C0103: Function name "loadData" doesn't conform to snake_case naming style (invalid-name)
+inventory_system.py:30:4: W0603: Using the global statement (global-statement)
+inventory_system.py:34:0: C0116: Missing function or method docstring (missing-function-docstring)
+inventory_system.py:34:0: C0103: Function name "saveData" doesn't conform to snake_case naming style (invalid-name)
+inventory_system.py:39:0: C0116: Missing function or method docstring (missing-function-docstring)
+inventory_system.py:39:0: C0103: Function name "printData" doesn't conform to snake_case naming style (invalid-name)
+inventory_system.py:44:0: C0116: Missing function or method docstring (missing-function-docstring)
+inventory_system.py:44:0: C0103: Function name "checkLowItems" doesn't conform to snake_case naming style (invalid-name)
+inventory_system.py:51:0: C0116: Missing function or method docstring (missing-function-docstring)
+inventory_system.py:2:0: W0611: Unused import logging (unused-import)
+
+------------------------------------------------------------------
+Your code has been rated at 5.71/10 (previous run: 4.80/10, +0.91)
+
